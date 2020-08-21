@@ -1,6 +1,7 @@
 version: '3'
 
 services:
+
   zookeeper:
     image: 'bitnami/zookeeper:3'
     ports:
@@ -10,6 +11,7 @@ services:
       - 'zookeeper_data:/bitnami'
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
+      
   kafka:
     image: 'bitnami/kafka:2'
     ports:
