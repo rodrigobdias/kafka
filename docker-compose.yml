@@ -3,20 +3,30 @@ version: '3.3'
 services:
 
   zookeeper:
-    image: 'bitnami/zookeeper:3'
+    build:
+      context: zookeeper/
+      args:
+        ZOOKEEPER_VERSION: $ZOOKEEPER_VERSION
+    container_name: zookeeper
     ports:
       - '2181:2181'
-#    restart: always
+    restart: always
     volumes:
       - 'zookeeper_data:/bitnami'
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
+    networks: 
+      - zookeeper_kafka
 
   kafka:
-    image: 'bitnami/kafka:2'
+    build:
+      context: kafka/
+      args:
+        KAFKA_VERSION: $KAFKA_VERSION
+    container_name: kafka
     ports:
       - '9092:9092'
-#    restart: always
+    restart: always
     volumes:
       - 'kafka_data:/bitnami'
     environment:
@@ -26,6 +36,12 @@ services:
       - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
     depends_on:
       - zookeeper
+    networks: 
+      - zookeeper_kafka
+
+networks:
+  zookeeper_kafka:
+    driver: bridge
 
 volumes:
   zookeeper_data:

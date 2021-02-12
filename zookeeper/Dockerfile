@@ -1,0 +1,5 @@
+
+ARG ZOOKEEPER_VERSION
+
+FROM bitnami/zookeeper:${ZOOKEEPER_VERSION}
+
